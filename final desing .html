@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Sensor Testing System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --card-background: #ffffff;
+            --text-color: #34495e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .sensor-card {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .sensor-card:hover {
+            transform: scale(1.03);
+        }
+
+        .sensor-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sensor-card h3 i {
+            margin-right: 10px;
+        }
+
+        .sensor-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin: 15px 0;
+        }
+
+        .sensor-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+        }
+
+        .status-on {
+            background-color: #2ecc71;
+        }
+
+        .status-off {
+            background-color: #e74c3c;
+        }
+
+        .toggle-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .rgb-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .rgb-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .rgb-btn:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .sensor-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <header class="header">
+            <h1>Smart Sensor Testing System</h1>
+           
+        </header>
+
+        <div class="sensor-grid">
+            <div class="sensor-card">
+                <h3><i class="fas fa-thermometer-half"></i>Temperature</h3>
+                <div class="sensor-value" id="temperatureValue">--</div>
+                <div class="sensor-status">
+                    <div id="temperatureStatus" class="status-indicator status-off"></div>
+                    <button id="temperatureButton" class="toggle-btn">Activate</button>
+                </div>
+            </div>
+
+            <div class="sensor-card">
+                <h3><i class="fas fa-tint"></i>Humidity Level</h3>
+                <div class="sensor-value" id="humidityValue">--</div>
+                <div class="sensor-status">
+                    <div id="humidityStatus" class="status-indicator status-off"></div>
+                    <button id="humidityButton" class="toggle-btn">Activate</button>
+                </div>
+            </div>
+
+            <div class="sensor-card">
+                <h3><i class="fas fa-ruler"></i>Infrared Sensor</h3>
+                <div class="sensor-value" id="tofValue">--</div>
+                <div class="sensor-status">
+                    <div id="tofStatus" class="status-indicator status-off"></div>
+                    <button id="tofButton" class="toggle-btn">Activate</button>
+                </div>
+            </div>
+
+            <div class="sensor-card">
+                <h3><i class="fas fa-lightbulb"></i>Light Intensity</h3>
+                <div class="sensor-value" id="ldrValue">--</div>
+                <div class="sensor-status">
+                    <div id="ldrStatus" class="status-indicator status-off"></div>
+                    <button id="ldrButton" class="toggle-btn">Activate</button>
+                </div>
+            </div>
+
+
+			
+				<div class="sensor-card">
+		<h4><i class="fas fa-wave-square"></i> Laser Distance Sensor</h4>
+		<div class="sensor-value" id="laserValue">--</div> <!-- Changed id -->
+		<div class="sensor-status">
+			<div id="laserStatus" class="status-indicator status-off"></div> <!-- Changed id -->
+			<button id="laserButton" class="toggle-btn">Activate</button> <!-- Changed id -->
+		</div>
+	</div>
+
+            <div class="sensor-card">
+                <h3><i class="fas fa-wave-square"></i>Ultrasonic Distance</h3>
+                <div class="sensor-value" id="ultrasonicValue">--</div>
+                <div class="sensor-status">
+                    <div id="ultrasonicStatus" class="status-indicator status-off"></div>
+                    <button id="ultrasonicButton" class="toggle-btn">Activate</button>
+                </div>
+            </div>
+
+            <div class="sensor-card">
+                <h3><i class="fas fa-lightbulb"></i>LED R G B</h3>
+                <div class="rgb-controls">
+                    <button id="redButton" class="rgb-btn" style="background-color: red;"></button>
+                    <button id="greenButton" class="rgb-btn" style="background-color: green;"></button>
+                    <button id="blueButton" class="rgb-btn" style="background-color: blue;"></button>
+                </div>
+            </div>
+		
+					<div class="sensor-card">
+			<h3><i class="fas fa-volume-up"></i> Buzzer</h3>
+			<div class="sensor-value" id="buzzerValue">--</div>
+			<div class="sensor-status">
+				<div id="buzzerStatus" class="status-indicator status-off"></div>
+				<button id="buzzerButton" class="toggle-btn">Activate</button>
+			</div>
+		</div>
+
+
+
+
+        </div>
+    </div>
+
+    <script>
+    // WebSocket connection setup
+    const ws = new WebSocket('ws://192.168.17.65:81');
+
+    // Check if WebSocket is open
+    ws.onopen = () => {
+        console.log("Connected to WebSocket");
+    };
+
+    ws.onclose = () => {
+        console.log("Disconnected from WebSocket");
+    };
+
+    // Send a message to the WebSocket server to toggle the sensor's state
+    function toggleSensor(sensorId, action) {
+        ws.send(JSON.stringify({ sensor: sensorId, action }));
+    }
+
+    // List of sensors and their associated elements
+	const sensors = [
+		{ id: 'ultrasonic', buttonId: 'ultrasonicButton', valueId: 'ultrasonicValue', statusId: 'ultrasonicStatus' },
+		{ id: 'temperature', buttonId: 'temperatureButton', valueId: 'temperatureValue', statusId: 'temperatureStatus' },
+		{ id: 'humidity', buttonId: 'humidityButton', valueId: 'humidityValue', statusId: 'humidityStatus' },
+		{ id: 'tof', buttonId: 'tofButton', valueId: 'tofValue', statusId: 'tofStatus' },
+		{ id: 'ldr', buttonId: 'ldrButton', valueId: 'ldrValue', statusId: 'ldrStatus' },
+		{ id: 'laser', buttonId: 'laserButton', valueId: 'laserValue', statusId: 'laserStatus' }, // Updated entry
+		{ id: 'buzzer', buttonId: 'buzzerButton', valueId: 'buzzerValue', statusId: 'buzzerStatus' }
+	];
+
+    // Event listener for each sensor's button
+    sensors.forEach(({ id, buttonId, valueId, statusId }) => {
+        const button = document.getElementById(buttonId);
+        const statusIndicator = document.getElementById(statusId);
+
+        // Button click event to toggle the sensor state
+        button.addEventListener('click', () => {
+            const action = button.textContent === 'Activate' ? 'on' : 'off';
+            button.textContent = action === 'on' ? 'Deactivate' : 'Activate';
+            statusIndicator.classList.toggle('status-on', action === 'on');
+            statusIndicator.classList.toggle('status-off', action === 'off');
+            toggleSensor(id, action);
+        });
+    });
+
+    // WebSocket message event handler
+    ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.sensor && document.getElementById(`${data.sensor}Value`)) {
+            document.getElementById(`${data.sensor}Value`).textContent = data.value;
+        }
+    };
+
+    // RGB LED control for the red, green, and blue buttons
+    ['red', 'green', 'blue'].forEach(color => {
+        const button = document.getElementById(`${color}Button`);
+        button.addEventListener('click', () => {
+            ws.send(JSON.stringify({ sensor: color }));
+            button.style.opacity = button.style.opacity === '0.5' ? '1' : '0.5';
+        });
+    });
+</script>
+
+
+</body>
+</html>
